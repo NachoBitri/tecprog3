@@ -11,7 +11,7 @@ class Archivo extends Nodo {
 	int getTamanyo(){
 		return tamanyo;
 	}
-	Nodo getNode(){
+	Nodo getNodo(){
 		return this;
 	}
 }
