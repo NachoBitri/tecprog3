@@ -1,8 +1,8 @@
 class Archivo extends Nodo {
 	public int tamanyo;
 
-	public Archivo(String str,int t){
-		setNombre(s);
+	public Archivo(String nombre,int t){
+		setNombre(nombre);
 		tamanyo=t;
 	}
 	public void setTamanyo(int t){
