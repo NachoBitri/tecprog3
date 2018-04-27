@@ -1,6 +1,6 @@
 class ExcepcionArbolFicheros extends Exception{
 	String nombre;
-	public String toString();
+	abstract public String toString();
 }
 class NoExisteExcepcion extends ExcepcionArbolFicheros{
 	public NoExisteExcepcion(String nomnbre){
