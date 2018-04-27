@@ -16,8 +16,5 @@ abstract class Nodo{
 		return nombre;
 	}
 
-	protected void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
 	abstract public int getTamanyo();
 }
