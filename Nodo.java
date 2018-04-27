@@ -1,13 +1,17 @@
-abstract class Nodo {
-	
-	private String name;
 
-	public void setName(String name){
-		this.name=name;
+//package practica3TP;
+
+abstract class Nodo{
+	private String nombre;
+
+	public String getNombre(){
+		return nombre;
 	}
-	public String getName(){
-		return name;
+	protected void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-	abstract Nodo getNodo();
-	abstract  int getTamanyo(); 
+	/*
+	*	Nodo int tamanho(): Devuelve el tamaño del nodo.
+	*/
+	abstract public int tamanho();
 }

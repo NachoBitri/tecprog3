@@ -1,17 +1,19 @@
-class Archivo extends Nodo {
+
+
+class Archivo extends Nodo{	
 	public int tamanyo;
 
-	public Archivo(String nombre,int t){
-		setNombre(nombre);
+	public Archivo(){}
+
+	public Archivo(String n,int s){
+		setNombre(n);
 		tamanyo=t;
 	}
-	public void setTamanyo(int t){
-		tamanyo=t;
+	public void setTamanho(int s){
+		this.tamanyo=t;
 	}
-	int getTamanyo(){
-		return tamanyo;
-	}
-	Nodo getNodo(){
-		return this;
+	public  int getTamanyo(){
+		return this.tamanyo;
 	}
 }
+

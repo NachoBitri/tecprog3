@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-
 class Main {
    public static void main(String[] args) {
 	Directorio raiz;
@@ -27,14 +26,14 @@ class Main {
 				ruta.ls();
 			} else if (argv[0].equals("cd")) {
 				ruta.cd(argv[1]);
-			} else if (argv[0].equals("stat")) {
+			}else if (argv[0].equals("stat")) {
 				if (argv.length > 1) ruta.stat(argv[1]);
 				else ruta.stat(".");
 			} else if (argv[0].equals("vim")) {
 				ruta.vim(argv[1], Integer.parseInt(argv[2]));
 			} else if (argv[0].equals("mkdir")) {
 				ruta.mkdir(argv[1]);
-			} else if (argv[0].equals("ln")) {
+			}else if (argv[0].equals("ln")) {
 				ruta.ln(argv[1],argv[2]);
 			} else if (argv[0].equals("rm")) {
 				ruta.rm(argv[1]);
@@ -52,4 +51,4 @@ class Main {
 		}
 	}
    }
-};
+}
