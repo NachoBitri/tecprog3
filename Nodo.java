@@ -13,5 +13,5 @@ abstract class Nodo{
 	/*
 	*	Nodo int tamanho(): Devuelve el tamaño del nodo.
 	*/
-	abstract public int tamanho();
+	abstract public int tamanyo();
 }

@@ -78,40 +78,40 @@ class Ruta{
 	*	que se le pasa como parámetro. También se le puede pasar una ruta relativa.
 	*/
 	public void stat(String element) throws ExcepcionArbolFicheros{
-		if(!element.equals(".")){
+		if(element.equals(".")){
 			System.out.println(((Directorio) relativa.getLast()).tamanyo());
 		}
 		else{
 			LinkedList<Nodo> copiaRelativa = (LinkedList<Nodo>)relativa.clone();
 			String[] result = element.split("/");
-			int i=2;
+			int i=1;
 			for (String s : result) {
-				if(s.equals("..")){
-					if(relativa.size() < 2){
-						throw new NoExiste("");
-					}
-					else{
+				if(s.equals("..") && copiaRelativa.size() > 1){
 						copiaRelativa.removeLast();
-					}
 				}
 				else{
-					Nodo d = ((Directorio) copiaRelativa.getLast()).find(s);
-					if(d instanceof Enlace && ((Enlace) d).getContenido() instanceof Directorio){
-						throw new BucleInfinito();
-					}
-					else if(i > result.length){
-						System.out.println(((Directorio) copiaRelativa.getLast()).find(s).tamanho());
-					}
-					else if(d instanceof Archivo){
-						throw new NoEsDirectorio("Tipo de dato introducido erroneo: ");
-					}
-					else if(d instanceof Enlace && ((Enlace) d).getContenido() instanceof Archivo){
-						if(((Enlace) copiaRelativa.getLast()).getContenido() instanceof Archivo){
-							throw new NoEsDirectorio("Tipo de dato introducido erroneo: ");
+					if(((Directorio) copiaRelativa.getLast()).existeNodo(s)){
+						Nodo n = ((Directorio) copiaRelativa.getLast()).find(s);
+						if(n instanceof Enlace && ((Enlace) n).getContenido() instanceof Directorio){
+							throw new BucleInfinito();
+						}
+						else if(i >= result.length){
+							System.out.println(((Directorio) copiaRelativa.getLast()).find(s).tamanyo());
+						}
+						else if(n instanceof Archivo){
+							throw new NoExisteExcepcion(s);
+						}
+						else if(n instanceof Enlace && ((Enlace) n).getContenido() instanceof Archivo){
+							if(((Enlace) copiaRelativa.getLast()).getContenido() instanceof Archivo){
+								throw new NoEsDirectorio("Tipo de dato introducido erroneo: ");
+							}
+						}
+						else{
+							copiaRelativa.add(n);
 						}
 					}
 					else{
-						copiaRelativa.add(d);
+						throw new NoExisteExcepcion(s);
 					}
 				}
 				i++;
