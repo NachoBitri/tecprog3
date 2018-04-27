@@ -14,7 +14,7 @@ class Directorio  extends Nodo{
 	*	Si no hay ningún problema devolverá el Nodo de nombre s en el caso de que esté en el directorio
 	*	en caso contrario dará un aviso.
 	*/
-	public boolean existeDir(String s) {
+	public boolean existeNodo(String s) {
 		Nodo resultado=null;
 		for ( Nodo d : contenido) {
 			if(s.compareTo(d.getNombre())==0){

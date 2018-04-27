@@ -19,9 +19,9 @@ class Ruta{
 	*	separador “/”.
 	*/
 	public String pwd(){
-		String result = "";
+		String path = "";
 		for (Nodo d : relativa) {
-			result=result+d.getNombre()+"/";
+			path=path+d.getNombre()+"/";
 		}
 		return result;
 	}
@@ -79,43 +79,43 @@ class Ruta{
 	*/
 	public void stat(String element) throws ExcepcionArbolFicheros{
 		if(!element.equals(".")){
+			System.out.println(((Directorio) relativa.getLast()).tamanyo());
+		}
+		else{
+			LinkedList<Nodo> copiaRelativa = (LinkedList<Nodo>)relativa.clone();
 			String[] result = element.split("/");
-			LinkedList<Nodo> relativaInicio= (LinkedList<Nodo>)relativa.clone();
-			int i=1;
+			int i=2;
 			for (String s : result) {
-				i++;
 				if(s.equals("..")){
 					if(relativa.size() < 2){
-						throw new NoExiste("La ruta a la que intenta acceder esta fuera del sistema: ");
+						throw new NoExiste("");
 					}
 					else{
-						relativaInicio.removeLast();
+						copiaRelativa.removeLast();
 					}
 				}
 				else{
-					Nodo d=  ((Directorio) relativaInicio.getLast()).find(s);
+					Nodo d = ((Directorio) copiaRelativa.getLast()).find(s);
 					if(d instanceof Enlace && ((Enlace) d).getContenido() instanceof Directorio){
 						throw new BucleInfinito();
 					}
 					else if(i > result.length){
-						System.out.println(((Directorio) relativaInicio.getLast()).find(s).tamanho());
+						System.out.println(((Directorio) copiaRelativa.getLast()).find(s).tamanho());
 					}
 					else if(d instanceof Archivo){
 						throw new NoEsDirectorio("Tipo de dato introducido erroneo: ");
 					}
 					else if(d instanceof Enlace && ((Enlace) d).getContenido() instanceof Archivo){
-						if(((Enlace) relativaInicio.getLast()).getContenido() instanceof Archivo){
+						if(((Enlace) copiaRelativa.getLast()).getContenido() instanceof Archivo){
 							throw new NoEsDirectorio("Tipo de dato introducido erroneo: ");
 						}
 					}
 					else{
-						relativaInicio.add(d);
+						copiaRelativa.add(d);
 					}
 				}
+				i++;
 			}
-		}
-		else{
-			System.out.println((((Directorio) relativa.getLast()).tamanho()));
 		}
 	}
 	/*
@@ -126,21 +126,20 @@ class Ruta{
 	*	también cambia su tamaño.
 	*/
 	public void vim(String file,int size) throws ExcepcionArbolFicheros{
-		Nodo n=((Directorio) relativa.getLast()).find(file);
-		if(size<0){
-			throw  new TamanhoNegativo();
-		}
-		else if( n!=null && n instanceof Directorio){
-			throw  new YaExiste(file);
-		}
-		else if( n!=null && n instanceof Archivo){
-			((Archivo) n).setTamanho(size);
-		}
-		else if( n!=null && n instanceof Enlace){
-			((Enlace) n).setTamanho(size);
+		if (((Directorio) relativa.getLast()).existeNodo(file)){
+			Nodo n=((Directorio) relativa.getLast()).find(file);
+			if(n instanceof Directorio){
+				throw new EsDirectorioExcepcion(file);
+			}
+			else if(n instanceof Archivo){
+				((Archivo) n).setTamanyo(size);
+			}
+			else if(n instanceof Enlace){
+				((Enlace) n).setTamanyo(size);
+			}
 		}
 		else{
-			Archivo a= new Archivo(file,size);
+			Archivo a = new Archivo(file,size);
 	    	((Directorio) relativa.getLast()).add(a);
 	    }
 	}
@@ -149,7 +148,7 @@ class Ruta{
 	+	pasar como parámetro una ruta completa.
 	*/
 	public void mkdir(String dir) throws ExcepcionArbolFicheros{
-		if(((Directorio) relativa.getLast()).existeDir(dir)){
+		if(((Directorio) relativa.getLast()).existeNodo(dir)){
 			throw new YaExiste(dir);
 		}
 		else{
@@ -188,33 +187,30 @@ class Ruta{
 	public void ln(String dest,String orig) throws ExcepcionArbolFicheros{
 		if(!orig.equals(".")){
 			String[] result = orig.split("/");
-			LinkedList<Nodo> relativaInicio= (LinkedList<Nodo>)relativa.clone();
+			LinkedList<Nodo> copiaRelativa= (LinkedList<Nodo>)relativa.clone();
 			int i=1;
 			for (String s : result) {
 				i++;
 				if(s.equals("..")){
-					if(relativaInicio.size() < 2){
+					if(copiaRelativa.size() < 2){
 						throw new NoExiste("La ruta a la que intenta acceder esta fuera del sistema: ");
 					}
 					else{
 						relativa.removeLast();
 					}
 				}
-				else if(((Directorio) relativa.getLast()).find(s)==null){
-					throw new NoExiste("Error en la ruta /"+s+": ");
-				}
 				else{
-					Nodo d=  ((Directorio) relativa.getLast()).find(s);
+					Nodo d = ((Directorio) relativa.getLast()).find(s);
 					if(i > result.length){
 						Enlace e= new Enlace(dest,d);
-						((Directorio) relativaInicio.getLast()).add(e);
+						((Directorio) copiaRelativa.getLast()).add(e);
 					}
 					else{
 						relativa.add(d);
 					}
 				}
 			}
-			relativa=relativaInicio;
+			relativa=copiaRelativa;
 		}
 		else{
 			Enlace e= new Enlace(dest,(Directorio) relativa.getLast());
@@ -229,7 +225,7 @@ class Ruta{
 	*	posiciones del árbol de directorios.
 	*/
 	public void rm(String e) throws ExcepcionArbolFicheros{
-		if(((Directorio) relativa.getLast()).find(e)!=null){
+		if(((Directorio) relativa.getLast()).existeNodo(e)){
 			((Directorio) relativa.getLast()).rm(((Directorio) relativa.getLast()).find(e));
 		}
 		else{

@@ -29,3 +29,13 @@ class YaExisteExcepcion extends ExcepcionArbolFicheros {
 	}
 }
 
+class EsDirectorioExcepcion extends ExcepcionArbolFicheros {
+	public EsDirectorioExcepcion(String nomnbre){
+		this.nombre = nombre;
+	}
+	public String toString(){
+		return "Es un directorio"
+					+ nombre + "\n";
+	}
+}
+
