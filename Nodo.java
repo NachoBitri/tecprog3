@@ -1,12 +1,12 @@
-abstract class Nodo 
-{
-	private String nombre;
+abstract class Nodo {
+	
+	private String name;
 
-	public void setNombre(String nombre){
-		this.nombre=nombre;
+	public void setName(String name){
+		this.name=name;
 	}
-	public String getNombre(){
-		return nombre;
+	public String getName(){
+		return name;
 	}
 	abstract Nodo getNodo();
 	abstract  int getTamanyo(); 
