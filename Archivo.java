@@ -9,7 +9,7 @@ class Archivo extends Nodo{
 		setNombre(n);
 		tamanyo=t;
 	}
-	public void setTamanho(int s){
+	public void setTamanyo(int s){
 		this.tamanyo=t;
 	}
 	public  int getTamanyo(){

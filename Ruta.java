@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 class Ruta{
 	private LinkedList<Nodo> relativa;
 	public Ruta() {}
@@ -54,9 +55,6 @@ class Ruta{
 				if(s.equals("..")){
 					relativa.removeLast();
 				}
-				else if(((Directorio) relativa.getLast()).find(s)==null){
-					throw new NoExiste("Error en la ruta /"+s+": ");
-				}
 				else{
 					Nodo d=  ((Directorio) relativa.getLast()).find(s);
 					if(d instanceof Archivo){
@@ -93,9 +91,6 @@ class Ruta{
 					else{
 						relativaInicio.removeLast();
 					}
-				}
-				else if(((Directorio) relativaInicio.getLast()).find(s)==null){
-					throw new NoExiste("Error en la ruta /"+s+": ");
 				}
 				else{
 					Nodo d=  ((Directorio) relativaInicio.getLast()).find(s);
@@ -154,11 +149,11 @@ class Ruta{
 	+	pasar como parámetro una ruta completa.
 	*/
 	public void mkdir(String dir) throws ExcepcionArbolFicheros{
-		if(((Directorio) relativa.getLast()).find(dir)!=null){
+		if(((Directorio) relativa.getLast()).existeDir(dir)){
 			throw new YaExiste(dir);
 		}
 		else{
-			Directorio d= new Directorio(dir);
+			Directorio d = new Directorio(dir);
 			((Directorio) relativa.getLast()).add(d);
 		}
 	}
