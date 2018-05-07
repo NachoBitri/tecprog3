@@ -46,27 +46,24 @@ class Ruta{
 	*	 También se le puede pasar como parámetro una ruta reltiva.
 	*/
 	public void cd(String path) throws ExcepcionArbolFicheros{
-		if(path.equals("..") && relativa.size() < 2){
-			throw new NoExiste("La ruta a la que intenta acceder esta fuera del sistema: ");
-		}
 		else if(!path.equals(".")){
 			String[] result = path.split("/");
 			for (String s : result) {
-				if(s.equals("..")){
+				if(s.equals("..") && relativa.size() > 1){
 					relativa.removeLast();
 				}
 				else{
-					Nodo d=  ((Directorio) relativa.getLast()).find(s);
-					if(d instanceof Archivo){
+					Nodo n = ((Directorio) relativa.getLast()).find(s);
+					if(n instanceof Archivo){
 						throw new NoEsDirectorio("Tipo de dato introducido erroneo: ");
 					}
-					else if(d instanceof Enlace && ((Enlace) d).getContenido() instanceof Archivo){
+					else if(n instanceof Enlace && ((Enlace) n).getContenido() instanceof Archivo){
 						if(((Enlace) relativa.getLast()).getContenido() instanceof Archivo){
 							throw new NoEsDirectorio("Tipo de dato introducido erroneo: ");
 						}
 					}
 					else{
-						relativa.add(d);
+						relativa.add(n);
 					}
 				}
 			}
@@ -185,23 +182,21 @@ class Ruta{
 	*	árbol de directorios.
 	*/
 	public void ln(String dest,String orig) throws ExcepcionArbolFicheros{
-		if(!orig.equals(".")){
+		if(orig.equals(".")){
+			Enlace e= new Enlace(dest,(Directorio) relativa.getLast());
+			((Directorio) relativa.getLast()).add(e);
+		}
+		else{
 			String[] result = orig.split("/");
 			LinkedList<Nodo> copiaRelativa= (LinkedList<Nodo>)relativa.clone();
 			int i=1;
 			for (String s : result) {
-				i++;
-				if(s.equals("..")){
-					if(copiaRelativa.size() < 2){
-						throw new NoExiste("La ruta a la que intenta acceder esta fuera del sistema: ");
-					}
-					else{
+				if(s.equals("..") && copiaRelativa.size() > 2){
 						relativa.removeLast();
-					}
 				}
 				else{
 					Nodo d = ((Directorio) relativa.getLast()).find(s);
-					if(i > result.length){
+					if(i >= result.length){
 						Enlace e= new Enlace(dest,d);
 						((Directorio) copiaRelativa.getLast()).add(e);
 					}
@@ -209,12 +204,9 @@ class Ruta{
 						relativa.add(d);
 					}
 				}
+				i++;
 			}
 			relativa=copiaRelativa;
-		}
-		else{
-			Enlace e= new Enlace(dest,(Directorio) relativa.getLast());
-			((Directorio) relativa.getLast()).add(e);
 		}
 	}
 	/*
