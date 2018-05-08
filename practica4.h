@@ -1,7 +1,3 @@
-//
-// Diseñado por Pedro Ramoneda Franco y Osmar de la Fuente Maicas a día 27/4/17.
-//
-
 #ifndef PRACTICA4_H
 #define PRACTICA4_H
 
@@ -9,8 +5,8 @@
 
 using namespace std;
 class Transportable {
-    double volumen;
-    string nombre;
+    double vol;
+    string name;
 public:
 };
 
@@ -26,12 +22,13 @@ public:
 class SerVivo : public Transportable {
 public:
 };
+
 class Producto : public Generico {
 public:
 };
+
 class Guardable {
-private:
-    double capacidad;
+    double capacity;
 public:
 };
 
