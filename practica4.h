@@ -4,41 +4,49 @@
 #include <iostream>
 
 using namespace std;
-class Transportable {
-    double vol;
-    string name;
+class Transportar {
+    double volumen;
+    string nombre;
 public:
+	Transportar();
 };
 
 
-class Generico : public Transportable{
+class Generico : public Transportar{
 public:
+	Generico();
 };
 
-class Toxico : public Transportable {
+class Toxico : public Transportar {
 public:
+	Toxico();
 };
 
-class SerVivo : public Transportable {
+class SerVivo : public Transportar {
 public:
+	SerVivo();
 };
 
 class Producto : public Generico {
 public:
+	Producto(double volumen, String nombre) : volumen(volumen), nombre(nombre) {}
 };
 
-class Guardable {
-    double capacity;
+class Guardar {
+    double capacidad;
 public:
+	Guardar();
 };
 
-class Camion : public Guardable {
+class Camion : public Guardar {
 public:
+	Camion(int capacidad) : capacidad(capacidad) {}
 };
 
 template<class T>
-class Contenedor : public Guardable, public Generico {
+class Contenedor : public Guardar, public Generico {
 public:
+	Contenedor();
 };
 
 #endif //PRACTICA4_H
